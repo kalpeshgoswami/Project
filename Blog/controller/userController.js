@@ -137,9 +137,9 @@ const deleteUser = async (req, res, next) => {
     try {
         const targetedUser = req.params.id || req.user._id;
 
-        const user = await modelUser.findById(targetedUser);
+        const user = await userModel.findById(targetedUser);
 
-        await cloudinary.uploader.destroy(user.Cloudinary_Id);
+        await cloudinary.uploader.destroy(user.cloudinary_id);
 
         await user.deleteOne();
 

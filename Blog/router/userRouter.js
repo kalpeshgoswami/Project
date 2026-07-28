@@ -2,6 +2,7 @@ import express from "express";
 import userController from "../controller/userController.js"
 import upload from "../middleware/upload.js";
 import auth from "../middleware/auth.js";
+import checkRole from "../middleware/checkRole.js";
 
 const router = express.Router()
 
@@ -17,6 +18,6 @@ router.get("/logoutUser", auth, userController.logout);
 
 router.delete("/delete", auth, userController.deleteUser);
 
-router.patch("/update",auth,upload.single("userPhoto"),userController.update)
+router.patch("/update",auth,checkRole("admin"),upload.single("userPhoto"),userController.update)
 
 export default router
