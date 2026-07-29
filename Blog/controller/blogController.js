@@ -14,9 +14,15 @@ const add = async (req, res, next) => {
             image: req.file?.path || path,
             cloudinary_id: req.file.filename || null,
             author: req.user._id,
-        })
+        });
+
+        await newBlog.save()
+
+        res.status(201).json({ success: true, message: "blog added successfully", newBlog })
 
     } catch (error) {
         return next(new HttpError(error.message))
     }
 }
+
+export default { add }

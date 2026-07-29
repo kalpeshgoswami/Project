@@ -5,13 +5,14 @@ dotenv.config()
 import HttpError from "./middleware/HttpError.js";
 import connectDB from "./config/DB.js";
 import router from "./router/userRouter.js"
-
+import blogRouter from "./router/blogRouter.js"
 
 const app = express()
 
 app.use(express.json())
 
 app.use("/user", router)
+app.use("/blog", blogRouter)
 
 // server check
 app.get("/", (req, res) => {
@@ -26,8 +27,8 @@ app.use((req, res, next) => {
 //  centralize error handling
 app.use((error, req, res, next) => {
     if (res.headersSent) {
-    return next(error);
-}
+        return next(error);
+    }
     res.status(error.statusCode || 500).json({ message: error.message || "internal server error" })
 })
 
