@@ -18,8 +18,10 @@ router.get("/allData", auth, userController.allUserData);
 
 router.get("/logoutUser", auth, userController.logout);
 
+router.get("/allLogout", auth, userController.allLogout)
+
 router.delete("/delete", auth, userController.deleteUser);
 
-router.patch("/update", auth, checkRole("admin"), upload.single("userPhoto"), validate(updateUserSchema), userController.update)
+router.patch("/update", auth, upload.single("userPhoto"), validate(updateUserSchema), userController.update)
 
 export default router;

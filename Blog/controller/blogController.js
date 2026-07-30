@@ -30,13 +30,13 @@ const allBlog = async (req, res, next) => {
 
     try {
 
-        const blogs = await blogModel.find();
+        const blogs = await blogModel.find().populate("author","-_id");
 
         if (blogs.length === 0) {
             return next(new HttpError("blog is not found", 400))
         }
 
-        res.status(200).json({ success: true, message: "Blogs found Successfully", allUser });
+        res.status(200).json({ success: true, message: "Blogs found Successfully", blogs });
 
     } catch (error) {
         next(new HttpError(error.message))

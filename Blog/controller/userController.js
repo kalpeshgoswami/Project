@@ -111,6 +111,24 @@ const logout = async (req, res, next) => {
     }
 };
 
+// all logout 
+
+const allLogout = async (req, res, next) => {
+
+    try {
+
+        req.user.tokens = [];
+
+        await req.user.save();
+
+        res.status(200).json({ success: "user logout from all device" })
+
+    } catch (error) {
+        next(new HttpError(error.message));
+    }
+
+}
+
 // delete user
 
 const deleteUser = async (req, res, next) => {
@@ -180,4 +198,4 @@ const update = async (req, res, next) => {
 
 }
 
-export default { add, login, authLogin, allUserData, logout, deleteUser, update }
+export default { add, login, authLogin, allUserData, logout, allLogout, deleteUser, update }

@@ -53,6 +53,8 @@ const userSchema = new mongoose.Schema({
     }]
 }, {
     timestamps: true,
+    toJSON: { virtuals: true },
+    toObject: { virtuals: true }
 })
 
 userSchema.pre("save", async function () {
@@ -116,6 +118,29 @@ userSchema.methods.generateAuthToken = async function () {
     await user.save();
 
     return token
+
+};
+
+userSchema.virtual("blogs", {
+
+    ref: "blog",
+    localField: "_id",
+    foreignField: "author"
+
+})
+
+userSchema.methods.toJSON = function () {
+
+    const user = this;
+    const userObject = user.toObject();
+
+    delete userObject.password,
+    delete userObject.tokens;
+    delete userObject.createdAt;
+    delete userObject.updatedAt;
+    delete userObject.__v
+
+    return userObject;
 
 }
 
