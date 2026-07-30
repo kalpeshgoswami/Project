@@ -6,6 +6,7 @@ import HttpError from "./middleware/HttpError.js";
 import connectDB from "./config/DB.js";
 import router from "./router/userRouter.js"
 import blogRouter from "./router/blogRouter.js"
+import adminRouter from "./router/adminRouter.js"
 
 const app = express()
 
@@ -13,6 +14,7 @@ app.use(express.json())
 
 app.use("/user", router)
 app.use("/blog", blogRouter)
+app.use("/admin", adminRouter)
 
 // server check
 app.get("/", (req, res) => {

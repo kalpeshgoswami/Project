@@ -29,26 +29,6 @@ async function add(req, res, next) {
 
 // login user
 
-// const login = async (req, res, next) => {
-
-//     try {
-//         const { email, password } = req.body;
-
-//         const user = await userModel.findByCredential(email, password);
-
-//         if (!user) {
-//             return next(new HttpError("unable to login"));
-//         }
-
-//         const token = await user.generateAuthToken();
-
-//         res.status(200).json({ success: true, message: "User Logged in successfully", user, token })
-//     } catch (error) {
-//         next(new HttpError(error.message, 500));
-//     }
-
-// }
-
 const login = async (req, res, next) => {
     try {
         const { email, password } = req.body;
