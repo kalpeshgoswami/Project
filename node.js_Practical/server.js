@@ -12,7 +12,7 @@ const app = express()
 app.use(express.json())
 
 app.use("/employee", router)
-app.use("attendance", router)
+app.use("/attendance", attendanceRouter)
 
 app.get("/", (req, res) => {
     res.json({ message: "hello from server" })

@@ -4,6 +4,8 @@ import auth from "../middleware/auth.js";
 
 const router = express.Router();
 
-router.post("/add", auth, attendanceController.add);
+router.post("/mark", auth, attendanceController.markAttendance);
+
+router.get("/today", auth, attendanceController.todayAttendance);
 
 export default router;
