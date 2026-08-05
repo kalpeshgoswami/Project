@@ -45,7 +45,9 @@ const employee = new mongoose.Schema({
     }]
 
 }, {
-    timestamps: true
+    timestamps: true,
+    toJSON: { virtuals: true },
+    toObject: { virtuals: true },
 })
 
 employee.pre("save", async function () {
@@ -107,6 +109,11 @@ employee.methods.generateAuthToken = async function () {
 
 }
 
+employee.virtual("attendance", {
+    ref: "attendance",
+    localField: "_id",
+    foreignField: "EmpName",
+});
 
 const Employee = mongoose.model("employee", employee);
 

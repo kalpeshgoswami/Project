@@ -3,6 +3,7 @@ import HttpError from "./middleware/HttpError.js";
 import connectDB from "./config/DB.js";
 import router from "./router/EmployeeRouter.js";
 import attendanceRouter from "./router/attendanceRouter.js";
+import adminRouter from "./router/adminRouter.js";
 import dotenv from "dotenv";
 
 dotenv.config()
@@ -13,6 +14,7 @@ app.use(express.json())
 
 app.use("/employee", router)
 app.use("/attendance", attendanceRouter)
+app.use("/admin", router)
 
 app.get("/", (req, res) => {
     res.json({ message: "hello from server" })

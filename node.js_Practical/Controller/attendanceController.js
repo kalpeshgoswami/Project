@@ -1,5 +1,5 @@
 import HttpError from "../middleware/HttpError.js";
-import attendanceModel from "../model/attendanceModel.js";
+import attendanceModel from "../model/attendanceModel;.js";
 
 const markAttendance = async (req, res, next) => {
 
@@ -13,6 +13,9 @@ const markAttendance = async (req, res, next) => {
             markedBy: req.employee._id
         });
         await attendance.save();
+
+        await attendance.populate("EmpName", "name email");
+        await attendance.populate("markedBy", "name email")
 
         res.status(201).json({
             success: true,
@@ -43,6 +46,9 @@ const todayAttendance = async (req, res, next) => {
                 $lte: end,
             }
         })
+
+            .populate("EmpName", "name email phone role")
+            .populate("markedBy", "name email phone role")
 
         res.status(200).json({ success: true, attendance })
 
