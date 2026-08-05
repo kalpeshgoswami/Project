@@ -11,7 +11,7 @@ router.post("/login", employeeController.login)
 
 router.post("/authlogin", auth, employeeController.authLogin)
 
-router.get("/allEmp", auth, employeeController.allEmpData)
+router.get("/allEmp", employeeController.allEmpData)
 
 router.get("/logout", auth, employeeController.logout)
 
