@@ -6,6 +6,10 @@ This project allows employees to register, log in securely, manage their profile
 
 ---
 
+Render link : https://nodejs-practical-2zg5.onrender.com/employee/allEmp
+
+---
+
 ## 🚀 Features
 
 ### Authentication
