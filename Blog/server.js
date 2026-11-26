@@ -1,6 +1,8 @@
+
 import express from "express";
 import dotenv from "dotenv";
-import cors from "cors"
+import cors from "cors";
+
 dotenv.config();
 
 import HttpError from "./middleware/HttpError.js";
@@ -15,50 +17,59 @@ app.use(cors());
 
 app.use(express.json());
 
+app.use(express.urlencoded({ extended: true }));
+
 app.use("/user", router);
 app.use("/blog", blogRouter);
 app.use("/admin", adminRouter);
 
-// server check
 app.get("/", (req, res) => {
-  res.json({ message: "hello from server" });
+    res.status(200).json({
+        success: true,
+        message: "Hello from server",
+    });
 });
 
-// if route not found
 app.use((req, res, next) => {
-  return next(new HttpError("requested route not found", 404));
+    return next(new HttpError("Requested route not found", 404));
 });
 
-//  centralize error handling
 app.use((error, req, res, next) => {
-  if (res.headersSent) {
-    return next(error);
-  }
-  res
-    .status(error.statusCode || 500)
-    .json({ message: error.message || "internal server error" });
-});
+    console.error("BACKEND ERROR:", error);
+    console.error("ERROR MESSAGE:", error.message);
+    console.error("ERROR STACK:", error.stack);
 
-const port = 5000;
-
-async function startServer() {
-  try {
-    const connect = await connectDB();
-
-    if (!connect) {
-      return console.log("failed to connect DB");
+    if (res.headersSent) {
+        return next(error);
     }
 
-    app.listen(port, (err) => {
-      if (err) {
-        return console.log(err.message);
-      }
-      console.log(`server running port on ${port}`);
+    res.status(error.statusCode || 500).json({
+        success: false,
+        message: error.message || "Internal server error",
     });
-  } catch (error) {
-    console.log(error.message);
-    process.exit(1);
-  }
+});
+
+const port = process.env.PORT || 5000;
+
+async function startServer() {
+    try {
+        const connect = await connectDB();
+
+        if (!connect) {
+            console.log("Failed to connect DB");
+            process.exit(1);
+        }
+
+        app.listen(port, () => {
+            console.log(`Server running on port ${port}`);
+        });
+
+    } catch (error) {
+        console.error("SERVER START ERROR:", error);
+        process.exit(1);
+    }
 }
 
 startServer();
+
+export default app;

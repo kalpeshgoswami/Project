@@ -3,8 +3,12 @@ import userModel from "../model/userModel.js";
 import HttpError from "../middleware/HttpError.js";
 import cloudinary from "../config/cloudinary.js";
 
+
 const add = async (req, res, next) => {
     try {
+        console.log("REGISTER BODY:", req.body);
+        console.log("REGISTER FILE:", req.file);
+
         const {
             name,
             email,
@@ -12,10 +16,6 @@ const add = async (req, res, next) => {
             phone,
             address
         } = req.body;
-
-        if (!req.file) {
-            return next(new HttpError("Please upload profile image", 400));
-        }
 
         const existingUser = await userModel.findOne({ email });
 
@@ -30,8 +30,8 @@ const add = async (req, res, next) => {
             phone,
             address,
             role: "user",
-            userPhoto: req.file.path,
-            cloudinary_id: req.file.filename || null,
+            userPhoto: req.file?.path || "",
+            cloudinary_id: req.file?.filename || null,
         });
 
         await newUser.save();
@@ -43,12 +43,7 @@ const add = async (req, res, next) => {
         });
 
     } catch (error) {
-        console.log("REGISTER ERROR:", error);
-
-        if (error.code === 11000) {
-            return next(new HttpError("Email already registered", 409));
-        }
-
+        console.error("REGISTER ERROR:", error);
         return next(new HttpError(error.message, 500));
     }
 };

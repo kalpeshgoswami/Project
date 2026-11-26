@@ -31,7 +31,7 @@ const userSchema = new mongoose.Schema(
     },
     userPhoto: {
       type: String,
-      required: true,
+    //   required: true,
     },
     role: {
       type: String,
