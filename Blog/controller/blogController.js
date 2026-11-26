@@ -90,7 +90,7 @@ const update = async (req, res, next) => {
 
         if (req.file) {
             if (blogs.cloudinary_id) {
-                await cloudinary.uploader.destroy(blog.cloudinary_id);
+                await cloudinary.uploader.destroy(blogs.cloudinary_id);
             }
 
             blogs.image = req.file.path;
