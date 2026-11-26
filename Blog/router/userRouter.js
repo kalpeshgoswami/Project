@@ -8,7 +8,12 @@ import { registerUserSchema, updateUserSchema } from "../validation/userSchema.j
 
 const router = express.Router()
 
-router.post("/add", validate(registerUserSchema), userController.add)
+router.post(
+    "/add",
+    upload.single("userPhoto"),
+    validate(registerUserSchema),
+    userController.add
+);
 
 router.post("/login", userController.login)
 
